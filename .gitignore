@@ -1,0 +1,8 @@
+node_modules/
+storage/
+vendor/
+.env
+.editorconfig
+composer.lock
+package-lock.json
+yarn.lock
