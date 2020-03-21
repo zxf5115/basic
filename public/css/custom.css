@@ -1,0 +1,129 @@
+.fullwidth{
+  width: 100%;
+}
+.refresh{
+  padding-left: 0px !important;
+}
+
+.logo{
+  width: auto;
+}
+.site-navbar__brand-mini{
+  margin: 0 !important;
+}
+
+.el-icon-earth{
+  font-size: 18px;
+}
+.settings{
+  padding-right: 10px !important;
+}
+.language{
+  padding: 0 !important;
+  /*padding: 0 0 0 10px!important;*/
+}
+.language .el-dropdown{
+  font-size: 17px !important;
+}
+.language .earth{
+  padding-bottom: 10px !important;
+}
+.footer{
+  height: 40px !important;
+  background-color: #fff;
+}
+.footer .coppy-right {
+  position: relative;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+
+
+.text-center{
+  text-align: center;
+}
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+.login{
+  width:100%;
+  height:100%;
+  position:fixed;
+  padding-top: 200px;
+  background-image: url('/images/background/bg-img-2.jpg');
+}
+
+.login-form {
+  background-color: #fff;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+  box-shadow: #1b1919 0px 0px 50px
+}
+
+.login-form .company-name-text {
+  font-size: 24px;
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.login-form .company-description-text {
+  margin-bottom: 20px;
+}
+
+.login-form .el-checkbox {
+  width: 100%;
+}
+
+.login-form .el-button--primary {
+  width: 100%;
+}
+
+.login-form .el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus{
+  border-color: #66b1ff !important;
+}
+
+.login-form .forget {
+  font-size: 13px;
+}
+
+.login-form .oauth {
+  font-size: 13px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.login-form .oauth .qq {
+  color: red;
+  margin-right: 5px;
+}
+
+.login-form .oauth .weixin {
+  color: green;
+}
+
+.add {
+  color: #67C23A;
+}
+.view {
+  color: #909399;
+}
+.edit {
+  color: #409EFF;
+}
+.delete {
+  color: #F56C6C;
+}
+.warning {
+  color: #E6A23C;
+}
+.mavon {
+  height: 30rem;
+}
