@@ -53,7 +53,7 @@
         dataForm: {
           id: 0,
           title: '',
-          type: 1,
+          type: '',
           valid_time: [],
           picture: '',
           description: ''

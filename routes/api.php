@@ -126,6 +126,19 @@ $api->version('v1', [
       });
 
 
+      $api->group(['namespace'=>'System'], function ($api) {
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'dictionary'], function ($api) {
+          $api->get('list', 'DictionaryController@list');
+          $api->post('handle', 'DictionaryController@handle');
+          $api->post('delete/{id?}', 'DictionaryController@delete');
+        });
+
+      });
+
+
+
+
+
       $api->group(['namespace'=>'Client'], function ($api) {
         $api->group(['middleware' => 'refresh.token', 'prefix' => 'advertising'], function ($api) {
           $api->get('list', 'AdvertisingController@list');

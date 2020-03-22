@@ -66,6 +66,7 @@
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <view v-if="viewVisible" ref="view" @refreshDataList="getDataList"></view>
   </div>
 </template>
 
@@ -80,13 +81,7 @@
         dataForm: {
           paramKey: ''
         },
-        dataList: [],
-        pageIndex: 1,
-        pageSize: 10,
-        totalPage: 0,
-        dataListLoading: false,
-        dataListSelections: [],
-        addOrUpdateVisible: false
+        viewVisible: false,
       }
     },
     components: {
@@ -96,28 +91,7 @@
       this.getDataList()
     },
     methods: {
-      // 获取数据列表
-      getDataList () {
-        this.dataListLoading = true
-        this.$http({
-          url: this.$http.adornUrl('/advertising/list'),
-          method: 'get',
-          params: this.$http.adornParams({
-            'page': this.pageIndex,
-            'limit': this.pageSize,
-            'title': this.dataForm.title
-          })
-        }).then(({data}) => {
-          if (data && data.status === 200) {
-            this.dataList = data.data.data
-            this.totalPage = data.data.total
-          } else {
-            this.dataList = []
-            this.totalPage = 0
-          }
-          this.dataListLoading = false
-        })
-      },
+
     }
   }
 </script>
