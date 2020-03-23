@@ -16,5 +16,11 @@ use App\Http\Controllers\Api\ApiController;
 class DictionaryController extends ApiController
 {
   protected $_model = 'App\Models\Service\System\Dictionary';
+
+  protected $_where = ['pid' => 0];
+
+  protected $_params = [
+    'pid'
+  ];
 }
 

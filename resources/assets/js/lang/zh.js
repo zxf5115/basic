@@ -213,4 +213,29 @@ export default {
       },
     },
   },
+
+
+
+  dictionary: {
+    title: '字典标题',
+    code: '字典代码',
+    description: '字典描述',
+    picture: '广告图片',
+    valid_time: '有效时间',
+    rules: {
+      title: {
+        require: '广告标题不能为空',
+        length: '长度在 1 到 30 个字符',
+      },
+      type: {
+        require: '广告类型不能为空',
+      },
+      valid_time: {
+        require: '有效时间不能为空',
+      },
+      picture: {
+        require: '广告图片不能为空',
+      },
+    },
+  },
 }

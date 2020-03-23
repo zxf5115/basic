@@ -5,6 +5,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Components\Code;
 
@@ -18,13 +19,13 @@ class ApiController extends Controller
 {
   protected $_relevance = false;
 
-  private $_where = '';
+  protected $_where = [];
 
   protected $_order = [
     ['key' => 'create_time', 'value' => 'desc'],
   ];
 
-  private $_params = [
+  protected $_params = [
     'title',
     'username',
     'realname',
@@ -55,7 +56,7 @@ class ApiController extends Controller
     // 对用户请求进行过滤
     $filter = $this->filter($request->all());
 
-    $condition = array_merge($condition, $filter);
+    $condition = array_merge($condition, $this->_where, $filter);
 
     $response = $this->_model::getPaging($condition, $this->_order);
 
@@ -236,7 +237,7 @@ class ApiController extends Controller
         }
         else
         {
-          $condition = array_merge($condition, $param);
+          $condition = array_merge($condition, $params);
         }
       }
 

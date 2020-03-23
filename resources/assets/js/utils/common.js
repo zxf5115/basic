@@ -42,7 +42,8 @@ export default {
         params: this.$http.adornParams({
           'page': this.pageIndex,
           'limit': this.pageSize,
-          'title': this.dataForm.title
+          'title': this.dataForm.title,
+          'pid': this.dataForm.pid,
         })
       }).then(({data}) => {
         if (data && data.status === 200)
