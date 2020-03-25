@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1\Service\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use App\Http\Components\Code;
 use App\Http\Controllers\Api\ApiController;
 
 /**
@@ -68,11 +69,11 @@ class AdvertisingController extends ApiController
 
       if($response)
       {
-        return self::success('操作成功');
+        return self::success(Code::$message[Code::HANDLE_SUCCESS]);
       }
       else
       {
-        return self::error('操作失败');
+        return self::error(Code::$message[Code::HANDLE_FAILURE]);
       }
     }
   }

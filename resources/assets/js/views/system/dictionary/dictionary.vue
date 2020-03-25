@@ -46,9 +46,6 @@
       <el-table-column prop="status" header-align="center" align="center" :label="$t('common.status')">
       </el-table-column>
 
-      <el-table-column :label="$t('common.create_time')" align="center" prop="create_time">
-      </el-table-column>
-
       <el-table-column :label="$t('common.handle')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-if="isAuth('system:dictionary:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">
@@ -85,15 +82,20 @@ export default {
   data () {
     return {
       model: 'system/dictionary',
-      dataForm: {
-        userName: ''
-      },
+      dataForm: {},
     }
   },
   activated () {
     this.getDataList()
   },
   methods: {
+    // 新增 / 修改
+    addOrUpdateHandle (pid, id) {
+      this.addOrUpdateVisible = true
+      this.$nextTick(() => {
+        this.$refs.addOrUpdate.init(0, id)
+      })
+    },
     rowClick (row) {
       this.$emit('dictionaryClick', row)
     }

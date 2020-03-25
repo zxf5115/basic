@@ -129,6 +129,7 @@ $api->version('v1', [
       $api->group(['namespace'=>'System', 'prefix' => 'system'], function ($api) {
         $api->group(['middleware' => 'refresh.token', 'prefix' => 'dictionary'], function ($api) {
           $api->get('list', 'DictionaryController@list');
+          $api->get('view/{id?}', 'DictionaryController@view');
           $api->post('handle', 'DictionaryController@handle');
           $api->post('delete/{id?}', 'DictionaryController@delete');
         });

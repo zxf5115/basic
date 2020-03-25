@@ -1,64 +1,85 @@
 <template>
-  <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
-    <el-form :model="dictionary" :rules="rules" label-position="right" label-width="100px" ref="form">
-      <el-form-item :label="$t('table.dictionary.code')" prop="code">
-        <el-input :disabled="type==='edit'" v-model="dictionary.code" />
+  <el-dialog
+    :title="!dataForm.id ? $t('common.create') : $t('common.update')"
+    :close-on-click-modal="false"
+    :fullscreen="true"
+    :visible.sync="visible">
+
+    <el-form :model="dataForm" :rules="dataRule" label-position="right" label-width="100px" ref="dataForm">
+
+      <el-form-item :label="$t('dictionary.title')" prop="title">
+        <el-input v-model="dataForm.title" :placeholder="$t('dictionary.title')"/>
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.name')" prop="name">
-        <el-input v-model="dictionary.name" />
+
+      <el-form-item :label="$t('dictionary.code')" prop="code">
+        <el-input v-model="dataForm.code" :placeholder="$t('dictionary.code')"/>
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.status')" prop="status">
-        <el-radio-group v-model="dictionary.status">
-          <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
-          <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
+
+      <el-form-item v-if="dataForm.pid > 0" :label="$t('dictionary.value')" prop="value">
+        <el-input v-model="dataForm.value" :placeholder="$t('dictionary.value')"/>
+      </el-form-item>
+
+      <el-form-item :label="$t('common.status')" prop="status">
+        <el-radio-group v-model="dataForm.status">
+          <el-radio :label="1">{{$t('common.enable')}}</el-radio>
+          <el-radio :label="2">{{$t('common.disable')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.describe')" prop="describe">
-        <el-input v-model="dictionary.describe" />
+
+      <el-form-item :label="$t('dictionary.description')" prop="description">
+        <el-input v-model="dataForm.description" />
       </el-form-item>
+
+      <el-form-item :label="$t('common.sort')" prop="sort">
+        <el-input-number v-model="dataForm.sort" controls-position="right" :min="0" :label="$t('common.sort')"/>
+      </el-form-item>
+
+      <el-form-item prop="pid">
+        <el-input type="hidden" v-model="dataForm.pid" />
+      </el-form-item>
+
     </el-form>
     <div class="dialog-footer" slot="footer">
-      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
-      <el-button @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
+      <el-button @click="visible = false" type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button @click="dataFormSubmit()" type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>
-<script>
 
+
+<script>
 export default {
-  props: {
-    dialogVisible: {
-      type: Boolean,
-      default: false
-    },
-    type: {
-      type: String,
-      default: 'add'
-    }
-  },
   data () {
     return {
-      dictionary: this.initDictionary(),
-      screenWidth: 0,
-      width: this.initWidth(),
-      rules: {
+      visible: false,
+      roleList: [],
+      dataForm: {
+        id: 0,
+        pid: 0,
+        title: '',
+        code: '',
+        value: '',
+        description: '',
+        sort: 0,
+        status: 1
+      },
+      dataRule: {
+        title: [
+          { required: true, message: this.$t('user.rules.username.require'), trigger: 'blur' },
+          { min: 1, max: 32, message: this.$t('user.rules.username.length'), trigger: 'blur' }
+        ],
         code: [
-          { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-          { min: 1, max: 64, message: this.$t('rules.range4to10'), trigger: 'blur' }
+          { required: true, message: this.$t('user.rules.avatar.require'), trigger: 'blur' },
         ],
-        name: [
-          { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-          { min: 1, max: 64, message: this.$t('rules.range4to10'), trigger: 'blur' }
+        description: [
+          { required: true, message: this.$t('user.rules.realname.require'), trigger: 'blur' },
+          { min: 1, max: 100, message: this.$t('user.rules.realname.length'), trigger: 'blur' }
         ],
-        describe: [
-          { min: 1, max: 200, message: this.$t('rules.range4to10'), trigger: 'blur' }
-        ],
-        status: { required: true, message: this.$t('rules.require'), trigger: 'blur' }
       }
     }
   },
   methods: {
-    init (id) {
+    init (pid, id) {
       this.dataForm.id = id || 0
       this.visible = true
       this.$nextTick(() => {
@@ -70,13 +91,18 @@ export default {
             params: this.$http.adornParams()
           }).then(({data}) => {
             if (data && data.status === 200) {
+              this.dataForm.pid = data.data.pid
               this.dataForm.title = data.data.title
-              this.dataForm.type = data.data.type + ''
-              this.dataForm.valid_time = [data.data.start_time, data.data.end_time]
-              this.dataForm.picture = data.data.picture
+              this.dataForm.code = data.data.code
+              this.dataForm.value = data.data.value
               this.dataForm.description = data.data.description
+              this.dataForm.sort = data.data.sort
+              this.dataForm.status = data.data.status
             }
           })
+        }
+        else {
+          this.dataForm.pid = pid
         }
       })
     },
@@ -88,11 +114,13 @@ export default {
             method: 'post',
             data: this.$http.adornData({
               'id': this.dataForm.id || undefined,
+              'pid': this.dataForm.pid,
               'title': this.dataForm.title,
-              'type': this.dataForm.type,
-              'valid_time': this.dataForm.valid_time,
-              'picture': this.dataForm.picture,
+              'code': this.dataForm.code,
+              'value': this.dataForm.value,
               'description': this.dataForm.description,
+              'status': this.dataForm.status,
+              'sort': this.dataForm.sort,
             })
           }).then(({data}) => {
             if (data && data.status === 200) {
@@ -115,5 +143,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-</style>

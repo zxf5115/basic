@@ -217,8 +217,11 @@ export default {
 
 
   dictionary: {
+    list: '字典列表',
+    view: '字典详情',
     title: '字典标题',
     code: '字典代码',
+    value: '字典值',
     description: '字典描述',
     picture: '广告图片',
     valid_time: '有效时间',
