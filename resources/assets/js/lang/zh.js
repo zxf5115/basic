@@ -52,6 +52,9 @@ export default {
     id: '编号',
     title: '标题',
     content: '内容',
+    mobile: '联系电话',
+    weixin: '微信',
+    email: '电子邮件',
     sort: '排序',
     status: '状态',
     start_time: '开始时间',
@@ -238,6 +241,65 @@ export default {
       },
       picture: {
         require: '广告图片不能为空',
+      },
+    },
+  },
+
+
+  customer: {
+    title: '客户名称',
+    description: '客户描述',
+    picture: '客户图片',
+    contact: '客户联系人',
+    mobile: '联系电话',
+    rules: {
+      title: {
+        require: '客户名称不能为空',
+        length: '长度在 1 到 50 个字符',
+      },
+      type: {
+        require: '广告类型不能为空',
+      },
+      valid_time: {
+        require: '有效时间不能为空',
+      },
+      picture: {
+        require: '广告图片不能为空',
+      },
+    },
+  },
+
+  project: {
+
+
+    category: {
+      title: '项目分类',
+      pciture: '分类图片',
+      description: '分类描述',
+      rules: {
+        title: {
+          require: '项目分类不能为空',
+          length: '长度在 1 到 50 个字符',
+        },
+      },
+    },
+
+    personnel: {
+      title: '工程师名称',
+      picture: '工程师头像',
+      position: '工程师职位',
+      company: '所在公司',
+      address: '所在城市',
+      description: '工程师简介',
+      experience: '工程师经历',
+      rules: {
+        title: {
+          require: '工程师名称不能为空',
+          length: '长度在 1 到 50 个字符',
+        },
+        picture: {
+          require: '工程师头像不能为空',
+        },
       },
     },
   },

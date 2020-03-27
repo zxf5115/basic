@@ -26,8 +26,37 @@ $api->version('v1', [
 
     $api->group(['namespace'=>'Client', 'prefix' => 'client'], function ($api) {
 
+      $api->group(['prefix' => 'token'], function ($api)
+      {
+        $api->post('certification', 'TokenController@certification');
+        $api->post('destroy', 'TokenController@destroy');
+      });
+
       $api->group(['middleware' => 'refresh.token', 'prefix' => 'user'], function ($api) {
         $api->post('get_login_code', 'UserController@getLoginCode');
+      });
+
+
+      $api->group(['middleware' => 'refresh.token', 'prefix' => 'advertising'], function ($api) {
+        $api->post('list', 'AdvertisingController@select');
+      });
+
+
+      $api->group(['namespace'=>'Project', 'prefix' => 'project'], function ($api) {
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'project'], function ($api) {
+          $api->get('list', 'ProjectController@select');
+          $api->get('detail/{id?}', 'ProjectController@detail');
+        });
+
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'customer'], function ($api) {
+          $api->get('list', 'CustomerController@select');
+          $api->get('detail/{id?}', 'CustomerController@detail');
+        });
+
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'category'], function ($api) {
+          $api->get('list', 'CategoryController@select');
+          $api->get('detail/{id?}', 'CustomerController@detail');
+        });
       });
 
     });
@@ -137,7 +166,37 @@ $api->version('v1', [
       });
 
 
+      $api->group(['namespace'=>'Project', 'prefix' => 'project'], function ($api) {
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'project'], function ($api) {
+          $api->get('list', 'ProjectController@list');
+          $api->get('type', 'ProjectController@type');
+          $api->get('view/{id?}', 'ProjectController@view');
+          $api->post('handle', 'ProjectController@handle');
+          $api->post('delete/{id?}', 'ProjectController@delete');
+        });
 
+
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'category'], function ($api) {
+          $api->get('list', 'CategoryController@list');
+          $api->get('view/{id?}', 'CategoryController@view');
+          $api->post('handle', 'CategoryController@handle');
+          $api->post('delete/{id?}', 'CategoryController@delete');
+        });
+
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'customer'], function ($api) {
+          $api->get('list', 'CustomerController@list');
+          $api->get('view/{id?}', 'CustomerController@view');
+          $api->post('handle', 'CustomerController@handle');
+          $api->post('delete/{id?}', 'CustomerController@delete');
+        });
+
+        $api->group(['middleware' => 'refresh.token', 'prefix' => 'personnel'], function ($api) {
+          $api->get('list', 'PersonnelController@list');
+          $api->get('view/{id?}', 'PersonnelController@view');
+          $api->post('handle', 'PersonnelController@handle');
+          $api->post('delete/{id?}', 'PersonnelController@delete');
+        });
+      });
 
 
       $api->group(['namespace'=>'Client'], function ($api) {
