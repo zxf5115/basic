@@ -29,11 +29,13 @@ $api->version('v1', [
       $api->group(['prefix' => 'token'], function ($api)
       {
         $api->post('certification', 'TokenController@certification');
+        $api->post('validation', 'TokenController@validation');
         $api->post('destroy', 'TokenController@destroy');
       });
 
       $api->group(['middleware' => 'refresh.token', 'prefix' => 'user'], function ($api) {
         $api->post('get_login_code', 'UserController@getLoginCode');
+        $api->post('get_user_info', 'UserController@getUserInfo');
       });
 
 
@@ -44,7 +46,9 @@ $api->version('v1', [
 
       $api->group(['namespace'=>'Project', 'prefix' => 'project'], function ($api) {
         $api->group(['middleware' => 'refresh.token', 'prefix' => 'project'], function ($api) {
-          $api->get('list', 'ProjectController@select');
+          $api->get('list', 'ProjectController@list');
+          $api->get('hot_list', 'ProjectController@hot_list');
+          $api->get('new_list', 'ProjectController@new_list');
           $api->get('detail/{id?}', 'ProjectController@detail');
         });
 
@@ -167,7 +171,7 @@ $api->version('v1', [
 
 
       $api->group(['namespace'=>'Project', 'prefix' => 'project'], function ($api) {
-        $api->group(['middleware' => 'refresh.token', 'prefix' => 'project'], function ($api) {
+        $api->group(['middleware' => 'refresh.token'], function ($api) {
           $api->get('list', 'ProjectController@list');
           $api->get('type', 'ProjectController@type');
           $api->get('view/{id?}', 'ProjectController@view');
@@ -178,6 +182,7 @@ $api->version('v1', [
 
         $api->group(['middleware' => 'refresh.token', 'prefix' => 'category'], function ($api) {
           $api->get('list', 'CategoryController@list');
+          $api->get('select', 'CategoryController@select');
           $api->get('view/{id?}', 'CategoryController@view');
           $api->post('handle', 'CategoryController@handle');
           $api->post('delete/{id?}', 'CategoryController@delete');
@@ -185,6 +190,7 @@ $api->version('v1', [
 
         $api->group(['middleware' => 'refresh.token', 'prefix' => 'customer'], function ($api) {
           $api->get('list', 'CustomerController@list');
+          $api->get('select', 'CustomerController@select');
           $api->get('view/{id?}', 'CustomerController@view');
           $api->post('handle', 'CustomerController@handle');
           $api->post('delete/{id?}', 'CustomerController@delete');
@@ -192,6 +198,7 @@ $api->version('v1', [
 
         $api->group(['middleware' => 'refresh.token', 'prefix' => 'personnel'], function ($api) {
           $api->get('list', 'PersonnelController@list');
+          $api->get('select', 'PersonnelController@select');
           $api->get('view/{id?}', 'PersonnelController@view');
           $api->post('handle', 'PersonnelController@handle');
           $api->post('delete/{id?}', 'PersonnelController@delete');

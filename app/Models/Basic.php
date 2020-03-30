@@ -284,12 +284,23 @@ class Basic extends Model
   {
     try
     {
-      $response = self::where($conditon)->first();
+      $response = self::where($conditon);
 
-      if($relevance)
+      if(is_string($relevance))
       {
         $response->relevance = $response->relevance;
       }
+      else if(is_array($relevance))
+      {
+        foreach($relevance as $item)
+        {
+          $response = $response->with([$item=>function($query){
+            $query->where(['status'=>1]);
+          }]);
+        }
+      }
+
+      $response = $response->first();
 
       if($is_array)
       {
@@ -318,11 +329,34 @@ class Basic extends Model
    * @param boolean $is_array 是否返回数组
    * @return [type]
    */
-  public static function getList($conditon, $order = 'create_time', $asc = 'desc', $is_array = false)
+  public static function getList($conditon, $relevance = false, $order = 'create_time', $asc = 'desc', $is_array = false, $limit = false)
   {
     try
     {
-      $response = self::where($conditon)->orderBy($order, $asc)->get();
+      $response = self::where($conditon);
+
+      if(is_string($relevance))
+      {
+        $response->relevance = $response->relevance;
+      }
+      else if(is_array($relevance))
+      {
+        foreach($relevance as $item)
+        {
+          $response = $response->with([$item=>function($query){
+            $query->where(['status'=>1]);
+          }]);
+        }
+      }
+
+      $response = $response->orderBy($order, $asc);
+
+      if($limit)
+      {
+        $response = $response->limit($limit);
+      }
+
+      $response = $response->get();
 
       if($is_array)
       {
@@ -348,15 +382,27 @@ class Basic extends Model
    * 根据查询条件获取分页数据
    *
    * @param array $condition 查询条件
+   * @param array $relevance 关联查询对象
    * @param boolean $is_array 是否返回数组
    * @param integer $pageSize 分页数量
    * @return 分页数据
    */
-  public static function getPaging($condition, $orders, $is_array = false, $pageSize = 20)
+  public static function getPaging($condition, $relevance, $orders, $is_array = false, $pageSize = 10)
   {
     try
     {
       $model = self::where($condition);
+
+      if(is_array($relevance))
+      {
+        foreach($relevance as $item)
+        {
+          $model = $model->with([$item=>function($query){
+            $query->where(['status'=>1]);
+          }]);
+        }
+      }
+
 
       foreach($orders as $order)
       {

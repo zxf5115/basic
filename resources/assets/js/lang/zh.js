@@ -28,6 +28,8 @@ export default {
     empty_data: '暂无数据',
     enable: '正常',
     disable: '禁用',
+    yes: '是',
+    no: '否',
     confirm: '确定',
     cancel: '取消',
     search: '查找',
@@ -270,7 +272,21 @@ export default {
   },
 
   project: {
-
+    title: '项目名称',
+    picture: '项目图片',
+    category_name: '项目分类',
+    leader: '项目负责人',
+    customer_name: '项目客户',
+    personnel_name: '开发人员',
+    project_cost: '项目费用',
+    url: '访问地址',
+    version: '版本号',
+    level: '项目分期',
+    finish: '项目结项',
+    hot: '项目热门',
+    new: '项目最新',
+    description: '项目内容',
+    create_time: '立项时间',
 
     category: {
       title: '项目分类',

@@ -48,6 +48,30 @@ class TokenController extends ApiController
 
   /**
    * @author zhangxiaofei [<1326336909@qq.com>]
+   * @dateTime 2020-03-30
+   * ------------------------------------------
+   * 验证Token是否有效
+   * ------------------------------------------
+   *
+   * 验证Token是否有效
+   *
+   * @return [type]
+   */
+  public function validation()
+  {
+    if(!empty(auth('api')->user()->id))
+    {
+      return self::success();
+    }
+    else
+    {
+      return self::error(Code::ERROR);
+    }
+  }
+
+
+  /**
+   * @author zhangxiaofei [<1326336909@qq.com>]
    * @dateTime 2020-01-22
    * ------------------------------------------
    * Token 销毁

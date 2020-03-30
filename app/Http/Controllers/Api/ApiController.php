@@ -58,7 +58,7 @@ class ApiController extends Controller
 
     $condition = array_merge($condition, $this->_where, $filter);
 
-    $response = $this->_model::getPaging($condition, $this->_order);
+    $response = $this->_model::getPaging($condition, $this->_relevance, $this->_order);
 
     return self::success($response);
   }
@@ -97,7 +97,7 @@ class ApiController extends Controller
     // 对用户请求进行过滤
     $condition = ['status' => 1, 'company_id' => $company_id];
 
-    $response = $this->_model::getList($condition, 'id', 'asc', true);
+    $response = $this->_model::getList($condition, $this->_relevance, 'id', 'asc', true);
 
     return self::success($response);
   }
